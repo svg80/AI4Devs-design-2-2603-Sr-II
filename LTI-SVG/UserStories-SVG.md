@@ -710,3 +710,656 @@ La mejor secuencia para LTI no es empezar por “cerrar decisiones”, sino por 
 
 Ese orden refleja mejor la estrategia del PRD y reduce el riesgo de construir un backlog vistoso pero no realmente operable.
 
+---
+
+# 8. Seleccionar UserStory para generar Tickets de trabajo
+Selecciono la US-04 - Crear bloqueo operativo, porque creo que no es demasiado simple como otras historias más básicas, pero tampoco depende de muchas cosas que todavía no están hechas. Además, parece bastante importante para el producto, ya que trata sobre gestionar bloqueos en el proceso.
+
+También creo que permite dividir el trabajo en varias tareas claras, lo que viene bien para practicar cómo hacer tickets y estimarlos
+
+# 9. Tickets de trabajo para US-04 - Crear bloqueo operativo
+
+Entendido. En este paso lo correcto es **bajar la historia a trabajo técnico**, sin entrar todavía en story points.
+
+Te dejo una versión más aterrizada, en formato más cercano a una reunión real de planificación: tickets concretos, pequeños y con separación clara entre dominio, persistencia, API, frontend y pruebas.
+
+---
+
+# Tickets de trabajo — US-04 Crear bloqueo operativo
+
+## Ticket 1 — Modelar la entidad de dominio `ProcessBlocker`
+
+### Tipo
+
+Feature
+
+### Título
+
+Crear entidad de dominio `ProcessBlocker`
+
+### Descripción
+
+Crear la entidad de dominio que representa un bloqueo operativo dentro del módulo de orquestación del proceso.
+
+Debe incluir, como mínimo:
+
+* `id`
+* `vacancyId`
+* `description`
+* `responsibleUserId`
+* `status`
+* `detectedAt`
+
+La creación debe dejar el bloqueo en estado inicial activo.
+La lógica de validación básica debe vivir en dominio, no en controlador ni en persistencia.
+
+### Criterios de aceptación
+
+* Existe una entidad de dominio `ProcessBlocker`
+* No permite crear un bloqueo sin descripción
+* No permite crear un bloqueo sin responsable
+* El estado inicial del bloqueo es `ACTIVE`
+* La fecha de detección se asigna al crearlo
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, domain, blocker
+
+### Dependencias
+
+Ninguna
+
+### Notas técnicas
+
+* Evitar anemizar la entidad
+* Si el proyecto usa value objects, valorar encapsular `description` y `status`
+
+---
+
+## Ticket 2 — Definir contrato de repositorio para bloqueos
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Definir interfaz de repositorio `ProcessBlockerRepository`
+
+### Descripción
+
+Crear el contrato del repositorio para persistir y consultar bloqueos operativos.
+
+Debe cubrir al menos:
+
+* guardar bloqueo
+* buscar por id
+* listar bloqueos activos por vacante
+
+### Criterios de aceptación
+
+* Existe una interfaz de repositorio para `ProcessBlocker`
+* Permite persistir un bloqueo
+* Permite recuperar bloqueos activos de una vacante
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, repository, domain
+
+### Dependencias
+
+Ticket 1
+
+### Notas técnicas
+
+* Mantener la interfaz en capa de dominio o aplicación según la arquitectura del proyecto
+* No acoplarla a JPA/ORM
+
+---
+
+## Ticket 3 — Implementar persistencia de `ProcessBlocker`
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Implementar persistencia de bloqueos operativos
+
+### Descripción
+
+Implementar la capa de infraestructura para persistir `ProcessBlocker` en base de datos.
+
+Incluir:
+
+* tabla/colección de bloqueos
+* mapping ORM si aplica
+* índices mínimos para consulta por vacante y estado
+
+### Criterios de aceptación
+
+* Los bloqueos se guardan correctamente en base de datos
+* Se pueden recuperar bloqueos activos por vacante
+* La persistencia mantiene consistencia con el modelo de dominio
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, persistence, database
+
+### Dependencias
+
+Ticket 2
+
+### Notas técnicas
+
+* Añadir índice por `vacancy_id` y posiblemente por `(vacancy_id, status)`
+* El nombre de columnas/tabla debe reflejar bien el dominio
+
+---
+
+## Ticket 4 — Implementar caso de uso de creación de bloqueo
+
+### Tipo
+
+Feature
+
+### Título
+
+Implementar caso de uso `CreateProcessBlocker`
+
+### Descripción
+
+Crear el servicio/caso de uso de aplicación encargado de registrar un nuevo bloqueo operativo.
+
+Debe:
+
+* recibir `vacancyId`, `description`, `responsibleUserId`
+* validar existencia de la vacante
+* validar que la vacante está activa
+* crear el bloqueo y persistirlo
+
+### Criterios de aceptación
+
+* Si la vacante existe y está activa, el bloqueo se crea correctamente
+* Si la vacante no existe, el caso de uso devuelve error controlado
+* Si la vacante no está activa, no permite crear el bloqueo
+* Si falta responsable, no permite crear el bloqueo
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, application, use-case
+
+### Dependencias
+
+Ticket 1, Ticket 3
+
+### Notas técnicas
+
+* La validación “vacante activa” es importante porque la User Story lo dice explícitamente
+* No meter aquí lógica de formato HTTP
+
+---
+
+## Ticket 5 — Validar reglas de negocio sobre responsable
+
+### Tipo
+
+Feature
+
+### Título
+
+Validar responsable del bloqueo en creación
+
+### Descripción
+
+Añadir validaciones de negocio sobre el usuario responsable asignado al bloqueo.
+
+Validaciones mínimas:
+
+* el responsable existe
+* pertenece a la organización de la vacante
+* puede ser asignado dentro del contexto del proceso
+
+### Criterios de aceptación
+
+* No permite crear bloqueo con un usuario inexistente
+* No permite asignar responsable de otra organización
+* El error devuelto indica claramente la causa
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, validation, business-rules
+
+### Dependencias
+
+Ticket 4
+
+### Notas técnicas
+
+* Este ticket evita inconsistencias de dominio bastante comunes
+* Si el sistema aún no tiene organizaciones o permisos operativos completos, dejar la validación preparada al menos a nivel de organización
+
+---
+
+## Ticket 6 — Exponer endpoint para crear bloqueo operativo
+
+### Tipo
+
+Feature
+
+### Título
+
+Crear endpoint de API para registrar bloqueo operativo
+
+### Descripción
+
+Exponer un endpoint que permita crear un bloqueo asociado a una vacante.
+
+Debe:
+
+* recibir request con `description` y `responsibleUserId`
+* invocar el caso de uso
+* devolver respuesta con los datos mínimos del bloqueo creado
+
+### Criterios de aceptación
+
+* Existe un endpoint para registrar bloqueos
+* Devuelve éxito cuando el bloqueo se crea correctamente
+* Devuelve error de validación cuando falta responsable o descripción
+* Devuelve error cuando la vacante no existe o no está activa
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, api, rest
+
+### Dependencias
+
+Ticket 4, Ticket 5
+
+### Notas técnicas
+
+* Mantener DTOs separados del modelo de dominio
+* No exponer directamente la entidad interna
+
+---
+
+## Ticket 7 — Implementar validación de request en capa API
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Validar request de creación de bloqueo en entrada API
+
+### Descripción
+
+Añadir validaciones de entrada al endpoint para evitar enviar requests inválidas al caso de uso.
+
+Validaciones mínimas:
+
+* `description` obligatorio
+* `responsibleUserId` obligatorio
+* formato de campos correcto
+
+### Criterios de aceptación
+
+* Requests inválidas fallan antes de llegar a lógica de negocio
+* Los errores de validación son legibles para frontend
+* Los campos obligatorios quedan documentados
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, api, validation
+
+### Dependencias
+
+Ticket 6
+
+### Notas técnicas
+
+* Esta validación no sustituye la validación de dominio
+* Mantener ambos niveles
+
+---
+
+## Ticket 8 — Añadir formulario de creación de bloqueo en detalle de vacante
+
+### Tipo
+
+Feature
+
+### Título
+
+Implementar formulario de alta de bloqueo en la vista de vacante
+
+### Descripción
+
+Añadir en la pantalla de detalle de vacante una UI que permita registrar un nuevo bloqueo operativo.
+
+Debe incluir:
+
+* campo descripción
+* selector de responsable
+* acción guardar
+
+### Criterios de aceptación
+
+* Desde la vista de vacante se puede abrir el formulario de creación
+* Se puede informar descripción y responsable
+* No permite enviar el formulario sin responsable
+* No permite enviar el formulario sin descripción
+
+### Asignación
+
+Frontend
+
+### Etiquetas
+
+frontend, form, vacancy-detail
+
+### Dependencias
+
+Ticket 6, Ticket 7
+
+### Notas técnicas
+
+* La UX debe dejar claro que se trata de un bloqueo operativo
+* El selector de responsable debe usar usuarios válidos del contexto
+
+---
+
+## Ticket 9 — Integrar el envío del formulario con la API
+
+### Tipo
+
+Feature
+
+### Título
+
+Conectar formulario de bloqueo con API de creación
+
+### Descripción
+
+Conectar la UI con el endpoint backend para registrar el bloqueo y gestionar estados de carga, éxito y error.
+
+### Criterios de aceptación
+
+* Al guardar, la UI invoca la API correctamente
+* Muestra estado de carga mientras se envía
+* Muestra error funcional si la creación falla
+* Tras crear correctamente, el formulario se limpia o se cierra según diseño
+
+### Asignación
+
+Frontend
+
+### Etiquetas
+
+frontend, integration, api
+
+### Dependencias
+
+Ticket 8
+
+### Notas técnicas
+
+* Evitar duplicados por doble submit
+* Gestionar bien errores 4xx de validación
+
+---
+
+## Ticket 10 — Mostrar bloqueos activos en el detalle de vacante
+
+### Tipo
+
+Feature
+
+### Título
+
+Mostrar listado de bloqueos activos en la vista de vacante
+
+### Descripción
+
+Añadir en la vista de detalle de vacante el listado de bloqueos activos asociados.
+
+Cada ítem debe mostrar al menos:
+
+* descripción
+* responsable
+* estado
+
+### Criterios de aceptación
+
+* Si la vacante tiene bloqueos activos, se muestran en pantalla
+* Si no tiene bloqueos activos, se muestra estado vacío
+* El bloqueo recién creado aparece en el listado
+
+### Asignación
+
+Frontend
+
+### Etiquetas
+
+frontend, ui, blockers
+
+### Dependencias
+
+Ticket 9
+
+### Notas técnicas
+
+* Si ya existe query/backend para devolver bloqueos al cargar la vacante, reutilizarla
+* Si no existe, habrá que añadir soporte backend específico
+
+---
+
+## Ticket 11 — Exponer consulta de bloqueos activos por vacante
+
+### Tipo
+
+Feature
+
+### Título
+
+Implementar consulta de bloqueos activos para detalle de vacante
+
+### Descripción
+
+Implementar en backend la query necesaria para recuperar bloqueos activos de una vacante y soportar su visualización en frontend.
+
+### Criterios de aceptación
+
+* La API devuelve los bloqueos activos de una vacante
+* No devuelve bloqueos resueltos
+* Si no existen bloqueos, devuelve lista vacía
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+backend, query, api
+
+### Dependencias
+
+Ticket 3
+
+### Notas técnicas
+
+* Este ticket puede estar ya resuelto parcialmente si el detalle de vacante ya carga agregados relacionados
+* Si existe endpoint de detalle extensible, valorar incluirlo ahí en lugar de crear uno nuevo
+
+---
+
+## Ticket 12 — Tests de dominio y aplicación para creación de bloqueo
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Cubrir con tests la creación de bloqueo operativo
+
+### Descripción
+
+Añadir tests automáticos de dominio y de caso de uso para la creación de bloqueos.
+
+Cubrir al menos:
+
+* creación válida
+* bloqueo sin responsable
+* bloqueo sin descripción
+* vacante no activa
+* vacante inexistente
+
+### Criterios de aceptación
+
+* Existen tests automáticos para reglas principales
+* Las validaciones críticas quedan cubiertas
+* Los tests fallan si se rompe la regla de negocio
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+test, backend, domain
+
+### Dependencias
+
+Ticket 4, Ticket 5
+
+### Notas técnicas
+
+* Priorizar tests de comportamiento sobre tests acoplados a implementación
+
+---
+
+## Ticket 13 — Tests de integración API para alta de bloqueo
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Añadir tests de integración del endpoint de creación de bloqueo
+
+### Descripción
+
+Crear tests de integración para asegurar que el endpoint funciona correctamente extremo a extremo dentro del backend.
+
+### Criterios de aceptación
+
+* Existe test de creación satisfactoria
+* Existe test cuando falta responsable
+* Existe test cuando la vacante no existe
+* Existe test cuando la vacante no está activa
+
+### Asignación
+
+Backend
+
+### Etiquetas
+
+test, api, integration
+
+### Dependencias
+
+Ticket 6, Ticket 7
+
+---
+
+## Ticket 14 — Validar flujo en frontend con pruebas funcionales/manuales
+
+### Tipo
+
+Tarea técnica
+
+### Título
+
+Validar flujo de alta y visualización de bloqueo en frontend
+
+### Descripción
+
+Verificar que el flujo completo funciona desde la UI:
+
+* crear bloqueo
+* ver error si faltan datos
+* ver bloqueo en listado
+
+### Criterios de aceptación
+
+* El formulario no permite guardar sin responsable
+* El formulario no permite guardar sin descripción
+* Un bloqueo creado aparece en el detalle de vacante
+* El flujo es usable sin refresco manual si así se espera en la pantalla
+
+### Asignación
+
+QA
+
+### Etiquetas
+
+qa, frontend, functional-test
+
+### Dependencias
+
+Ticket 10, Ticket 11
+
+---
+
+# Orden lógico de implementación
+
+1. Ticket 1
+2. Ticket 2
+3. Ticket 3
+4. Ticket 4
+5. Ticket 5
+6. Ticket 6
+7. Ticket 7
+8. Ticket 11
+9. Ticket 8
+10. Ticket 9
+11. Ticket 10
+12. Ticket 12
+13. Ticket 13
+14. Ticket 14
+
+---
+
+
