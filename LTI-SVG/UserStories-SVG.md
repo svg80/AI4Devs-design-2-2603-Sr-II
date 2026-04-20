@@ -175,6 +175,9 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 - **Estimación:** M
 - **Tipo:** Core
 
+Nota: En el MVP esta funcionalidad se limita al detalle de una vacante.  
+La vista centralizada de bloqueos se considera evolución posterior.
+
 ### INVEST
 - **Independent:** Parcial — Requiere bloqueos.
 - **Negotiable:** Sí
@@ -229,11 +232,11 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 - **Épica:** E2
 - **Título:** Visualizar acciones asignadas
 - **Historia:**  
-  "Como recruiter, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar"
+  ""Como usuario interno, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar""
 - **Descripción:**  
   Permite a cada participante del proceso conocer sus responsabilidades pendientes.
 - **Criterios de aceptación (BDD):**
-  - **Dado que** tengo acciones asignadas  
+  - **Dado que** soy responsable de acciones asignadas  
     **Cuando** accedo a mi vista de acciones  
     **Entonces** veo el listado de acciones pendientes
   - **Dado que** existe una acción asignada  
@@ -295,15 +298,17 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 - **Descripción:**  
   Permite capturar información clave de evaluación.
 - **Criterios de aceptación (BDD):**
-  - **Dado que** tengo una entrevista  
-    **Cuando** registro feedback  
-    **Entonces** queda asociado
-  - **Dado que** el feedback es válido  
-    **Cuando** lo guardo  
-    **Entonces** se persiste correctamente
-  - **Dado que** faltan campos obligatorios  
-    **Cuando** intento enviarlo  
-    **Entonces** el sistema lo impide
+  - **Dado que** existe una entrevista asociada a una candidatura  
+  **Cuando** registro feedback informando evaluación, comentarios y recomendación  
+  **Entonces** el feedback queda registrado y asociado a la entrevista y a la candidatura
+
+  - **Dado que** he informado evaluación, comentarios y recomendación con valores válidos  
+  **Cuando** guardo el feedback  
+  **Entonces** el sistema confirma que el feedback se ha guardado correctamente y queda disponible para su consulta
+
+  - **Dado que** no he informado la recomendación (campo obligatorio)  
+  **Cuando** intento enviar el feedback con evaluación y comentarios informados  
+  **Entonces** el sistema muestra un error de validación indicando que la recomendación es obligatoria y no guarda el feedback
 - **Estimación:** M
 - **Tipo:** Core
 
@@ -365,13 +370,13 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 - **Criterios de aceptación (BDD):**
   - **Dado que** existe feedback registrado para una candidatura  
     **Cuando** genero el debrief  
-    **Entonces** el sistema crea un resumen consolidado
-  - **Dado que** el feedback requerido está incompleto  
-    **Cuando** intento generar el debrief  
+    **Entonces** el sistema consolida el feedback agrupado por criterio y muestra las evaluaciones de cada entrevistador
+  - **Dado que** existen evaluaciones contradictorias
+    **Cuando** genero el debrief  
+    **Entonces** el sistema permite identificar discrepancias entre evaluadores
+  - **Dado que** el feedback está incompleto  
+    **Cuando** intento generar el debrief
     **Entonces** el sistema lo indica y no lo genera
-  - **Dado que** el debrief ya ha sido generado  
-    **Cuando** accedo a la candidatura  
-    **Entonces** puedo revisarlo antes de la decisión final
 - **Estimación:** M
 - **Tipo:** Core
 
@@ -418,31 +423,81 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 # 3. Vertical Slices (MVP)
 
-## VS1 — Alineación
-
-- **Historias:** US-01, US-02, US-03
-- **Flujo:** crear vacante → definir criterios → validar alineación
+Las vertical slices se han redefinido para reflejar flujos funcionales completos alineados con el modelo de dominio y los casos de uso del PRD.
 
 ---
 
-## VS2 — Ejecución operativa
+## VS1 — Alineación de vacante
 
-- **Historias:** US-04, US-05, US-06, US-07, US-08
-- **Flujo:** crear bloqueo → visualizar bloqueo → crear acción → visualizar acciones → resolver bloqueo
+- **Historias:**
+  - US-01 — Crear vacante
+  - US-02 — Definir criterios
+  - US-03 — Validar alineación
+  - US-E — Resolver discrepancias de alineación
+
+- **Flujo:**
+  crear vacante → definir criterios → resolver discrepancias → validar alineación
+
+- **Objetivo:**
+  asegurar una base común recruiter–hiring manager antes de iniciar el proceso
 
 ---
 
-## VS3 — Decisión
+## VS2 — Ejecución operativa (bloqueos)
 
-- **Historias:** US-09, US-10, US-11, US-12
-- **Flujo:** registrar feedback → visualizar feedback → generar debrief → registrar decisión
+- **Historias:**
+  - US-04 — Crear bloqueo operativo
+  - US-05 — Visualizar bloqueos
+  - US-06 — Crear acción para bloqueo
+  - US-07 — Visualizar acciones asignadas
+  - US-08 — Resolver bloqueo
 
+- **Flujo:**
+  detectar problema → registrar bloqueo → asignar acción → ejecutar → resolver
+
+- **Objetivo:**
+  hacer visible y gestionable el avance del proceso mediante accountability operativa
+
+---
+
+## VS3 — Evaluación y decisión (end-to-end real)
+
+- **Historias:**
+  - US-A — Crear candidatura
+  - US-B — Registrar o planificar entrevista
+  - US-C — Asignar entrevistador
+  - US-09 — Registrar feedback
+  - US-D — Marcar candidatura lista para decisión
+  - US-10 — Visualizar feedback
+  - US-11 — Generar debrief
+  - US-12 — Registrar decisión
+
+- **Flujo:**
+  crear candidatura → registrar entrevista → asignar entrevistador → registrar feedback → validar completitud → generar debrief → tomar decisión
+
+- **Objetivo:**
+  permitir un flujo completo de evaluación y decisión basado en evidencia
+
+---
+
+## Relación entre slices
+
+- VS1 habilita VS2 y VS3 (vacante alineada)
+- VS2 puede ejecutarse en paralelo a VS3 (bloqueos durante el proceso)
+- VS3 representa el flujo completo de decisión del producto
+
+---
+
+## Nota
+
+A diferencia de la versión inicial, VS3 incluye ahora las entidades clave del dominio (`Application`, `Interview`) necesarias para que el flujo sea ejecutable end-to-end.
 ---
 
 # 4. Mapa de dependencias
 
 - US-02 → US-01
 - US-03 → US-02
+- US-04 → US-03
 - US-05 → US-04
 - US-06 → US-04
 - US-07 → US-06
@@ -453,26 +508,84 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 ---
 
-# 5. Priorización MVP
+# 5. Priorización MVP 
+
+La priorización del MVP se ha ajustado teniendo en cuenta no solo valor de negocio y dependencias, sino la capacidad de ejecutar un flujo completo end-to-end según el modelo de dominio.
+
+## Orden de prioridad
 
 1. US-01
 2. US-02
 3. US-03
-4. US-04
-5. US-05
-6. US-06
-7. US-07
-8. US-08
-9. US-09
-10. US-10
-11. US-11
-12. US-12
+4. US-E — Resolver discrepancias de alineación
+5. US-A — Crear candidatura
+6. US-B — Registrar o planificar entrevista
+7. US-C — Asignar entrevistador
+8. US-04
+9. US-06
+10. US-08
+11. US-09
+12. US-D — Marcar candidatura lista para decisión
+13. US-12
+14. US-05
+15. US-10
+16. US-11
+17. US-07
 
+
+### MVP mínimo funcional (end-to-end real)
+
+Incluye:
+
+- US-01 — Crear vacante
+- US-02 — Definir criterios
+- US-03 — Validar alineación
+- US-E — Resolver discrepancias de alineación
+
+- US-A — Crear candidatura
+- US-B — Registrar o planificar entrevista
+- US-C — Asignar entrevistador
+
+- US-04 — Crear bloqueo operativo
+- US-06 — Crear acción para bloqueo
+- US-08 — Resolver bloqueo
+
+- US-09 — Registrar feedback
+- US-D — Marcar candidatura lista para decisión
+- US-12 — Registrar decisión
+
+### Flujo cubierto
+
+vacante → alineación → candidatura → entrevista → feedback → decisión
+
+### Qué valida este MVP
+
+- alineación real recruiter–hiring manager
+- existencia de flujo de evaluación real
+- capacidad de capturar feedback estructurado
+- capacidad de tomar una decisión trazable
+
+---
+
+### MVP ampliado
+
+Añade:
+
+- US-05 — Visualizar bloqueos
+- US-10 — Visualizar feedback
+- US-11 — Generar debrief
+
+### Qué aporta
+
+- mejora de visibilidad operativa
+- comparación de evaluaciones
+- consolidación estructurada antes de decisión
+- 
 ---
 
 # 6. Generación de backlog de producto con distintos prompts
 
-Para generar el backlog del producto se han utilizado los prompts indicados en ![Prompts usados](propmts_backlog-SVG.md)[prompts_backlog-SVG]
+Para generar el backlog del producto se han utilizado los prompts indicados en [Prompts usados](prompts_backlog-SVG.md)
 
 Las conclusiones obtenidas tras analizar las respuestas de los distntos prompts han sido las siguientes:
 
@@ -672,30 +785,385 @@ Puede ser válida como recorte MVP, pero está por debajo del diferencial comple
 #### E1 en general
 Falta una historia explícita para resolver discrepancias recruiter–manager, aunque sí aparece en el caso de uso principal del PRD.
 
+
+### 8.3 Pre-MVP dependencies
+
+El backlog actual no cubre completamente el flujo end-to-end del proceso de selección definido en el PRD.
+
+Existen dependencias funcionales previas que deben resolverse para que el bloque de evaluación y decisión (E3) sea realmente operable.
+
+En particular, la historia US-09 “Registrar feedback” asume la existencia de entrevistas y candidaturas, que actualmente no están modeladas como User Stories.
+
+A continuación se listan las historias necesarias como dependencias previas al MVP ampliado:
+
 ---
 
-## 9. Recomendación final
+#### US-A — Crear candidatura
 
-### Release 1
+- **Historia:**  
+  "Como recruiter, quiero crear una candidatura para una vacante para poder gestionar candidatos dentro del proceso"
+
+- **Criterios de aceptación (BDD):**
+  - **Dado que** existe una vacante  
+    **Cuando** creo una candidatura asociada a un candidato  
+    **Entonces** la candidatura queda registrada en el sistema
+  - **Dado** que existe una candidatura  
+    **Cuando** accedo a su detalle  
+    **Entonces** puedo ver su estado dentro del proceso
+
+- **Estimación:** M
+
+---
+
+#### US-B — Registrar o planificar entrevista
+
+- **Historia:**  
+  "Como recruiter, quiero registrar o planificar una entrevista para poder evaluar una candidatura"
+
+- **Criterios de aceptación (BDD):**
+  - **Dado** que existe una candidatura  
+    **Cuando** registro una entrevista  
+    **Entonces** queda asociada a la candidatura
+  - **Dado** que existe una entrevista  
+    **Cuando** accedo a su información  
+    **Entonces** puedo ver su estado y fecha
+
+- **Estimación:** M
+
+---
+
+#### US-C — Asignar entrevistador
+
+- **Historia:**  
+  "Como recruiter, quiero asignar un entrevistador a una entrevista para asegurar que la evaluación tiene un responsable"
+
+- **Criterios de aceptación (BDD):**
+  - **Dado** que existe una entrevista  
+    **Cuando** asigno un entrevistador  
+    **Entonces** queda registrado como responsable de la evaluación
+  - **Dado** que una entrevista tiene entrevistador asignado  
+    **Cuando** accedo a su detalle  
+    **Entonces** puedo ver quién es el responsable
+
+- **Estimación:** S
+
+---
+
+#### US-D — Marcar candidatura lista para decisión
+
+- **Historia:**  
+  "Como recruiter, quiero marcar una candidatura como lista para decisión para poder iniciar el proceso de cierre"
+
+- **Criterios de aceptación (BDD):**
+  - **Dado** que una candidatura tiene entrevistas completadas  
+    **Cuando** la marco como lista para decisión  
+    **Entonces** pasa a estado “lista para decisión”
+  - **Dado** que faltan evaluaciones obligatorias  
+    **Cuando** intento marcarla como lista  
+    **Entonces** el sistema lo impide
+
+- **Estimación:** S
+
+#### US-E — Resolver discrepancias de alineación
+
+- **Historia:**  
+  "Como recruiter o hiring manager, quiero resolver discrepancias en la definición de la vacante para poder cerrar una alineación válida"
+
+- **Criterios de aceptación (BDD):**
+  - **Dado** que existen diferencias en criterios de la vacante  
+    **Cuando** recruiter y hiring manager revisan la alineación  
+    **Entonces** pueden modificar la información hasta alcanzar un acuerdo
+  - **Dado** que existen discrepancias no resueltas  
+    **Cuando** intento validar la vacante  
+    **Entonces** el sistema no permite cerrar la alineación
+
+- **Estimación:** M
+---
+
+### 8.4 Impacto en el MVP
+
+- US-09 depende directamente de:
+  - US-B (entrevista)
+  - US-A (candidatura)
+
+- El bloque E3 (feedback → debrief → decisión) no es ejecutable sin estas historias.
+
+- Estas historias deben considerarse:
+  - Pre-MVP funcional real
+  - o parte de un “MVP técnico necesario”
+
+### 8.5 Integración en el MVP
+
+Estas historias no deben tratarse únicamente como dependencias teóricas, sino como parte del MVP funcional real.
+
+Sin la inclusión de:
+
+- US-A (candidatura)
+- US-B (entrevista)
+- US-C (asignación de entrevistador)
+- US-D (lista para decisión)
+
+el flujo de evaluación y decisión (E3) no es ejecutable end-to-end, ya que el modelo de dominio requiere explícitamente entidades como `Application`, `Interview` y `Feedback`.
+---
+
+### 8.6 Mapeo a arquitectura (bounded contexts y ownership)
+
+A partir de las vertical slices y del modelo de dominio definido en el PRD, se define el siguiente mapeo a módulos del sistema para clarificar responsabilidades y ownership de lógica de negocio.
+
+Las vertical slices definidas para el MVP representan flujos funcionales end-to-end, pero no deben confundirse con módulos o bounded contexts.
+
+Una vertical slice puede atravesar varios módulos del sistema, mientras que cada bounded context mantiene responsabilidad clara sobre una parte del dominio, sus reglas de negocio y su consistencia interna.
+
+## 8.6.1 Bounded contexts propuestos
+
+### 1. Gestión de Vacantes y Alineación
+
+**Responsabilidad**
+Gestionar la vacante, su alineación recruiter–hiring manager y los criterios de evaluación asociados.
+
+**Historias principalmente asociadas**
 - US-01
 - US-02
 - US-03
+- US-E
+
+**Agregados principales**
+- `Vacancy`
+- `VacancyAlignment`
+
+**Entidades relacionadas**
+- `EvaluationCriterion`
+
+**Invariantes principales**
+- una vacante no puede considerarse alineada sin criterios definidos
+- si se modifican criterios clave, la alineación vuelve a estado pendiente
+- no puede cerrarse la alineación si existen discrepancias no resueltas
+
+---
+
+### 2. Orquestación del Proceso
+
+**Responsabilidad**
+Coordinar el estado operativo de vacantes y candidaturas, gestionar bloqueos y acciones, y validar si el proceso puede avanzar.
+
+**Historias principalmente asociadas**
 - US-04
 - US-05
 - US-06
+- US-07
 - US-08
+- US-D
 
-### Release 1.5
-- Historias nuevas de candidatura/entrevista
+**Agregados principales**
+- `ProcessBlocker`
+- `ActionItem`
+
+**Agregado operativo relevante**
+- `Application` como estado de proceso
+
+**Invariantes principales**
+- un bloqueo debe estar asociado a una vacante
+- una acción debe estar asociada a un bloqueo
+- una candidatura no puede marcarse como lista para decisión si faltan evaluaciones obligatorias
+- el proceso no debe avanzar si existen bloqueos críticos abiertos
+
+---
+
+### 3. Evaluación y Feedback
+
+**Responsabilidad**
+Gestionar entrevistas, asignación de entrevistadores y captura de feedback estructurado por criterio.
+
+**Historias principalmente asociadas**
+- US-B
+- US-C
 - US-09
-
-### Release 2
 - US-10
+
+**Agregados principales**
+- `Interview`
+- `Feedback`
+
+**Entidades relacionadas**
+- `FeedbackCriterionAssessment`
+
+**Invariantes principales**
+- una entrevista pertenece a una candidatura
+- una entrevista debe tener entrevistador asignado antes de completarse
+- un feedback debe pertenecer a la entrevista y candidatura correctas
+- una entrevista solo puede tener un feedback principal en el MVP
+
+---
+
+### 4. Gestión de Debrief y Decisión
+
+**Responsabilidad**
+Consolidar evidencia evaluativa, generar debrief y registrar la decisión final auditable.
+
+**Historias principalmente asociadas**
 - US-11
 - US-12
 
+**Agregado principal**
+- `Debrief`
+
+**Entidades relacionadas**
+- `Application`
+- `Feedback`
+
+**Invariantes principales**
+- no puede generarse debrief si el feedback requerido está incompleto
+- una candidatura solo puede tener un debrief final en el MVP
+- la decisión final debe quedar registrada con trazabilidad
+
+---
+
+## 8.6.2 Relación entre vertical slices y bounded contexts
+
+### VS1 — Alineación de vacante
+Se implementa principalmente dentro de:
+- Gestión de Vacantes y Alineación
+
+Dependencia posterior:
+- habilita a Orquestación del Proceso para iniciar ejecución
+
+---
+
+### VS2 — Ejecución operativa (bloqueos)
+Se implementa principalmente dentro de:
+- Orquestación del Proceso
+
+Dependencias:
+- requiere vacante alineada desde Gestión de Vacantes y Alineación
+- puede apoyarse en señales de Evaluación y Feedback cuando el bloqueo depende de entrevistas o feedback
+
+---
+
+### VS3 — Evaluación y decisión
+Se implementa de forma transversal entre:
+- Orquestación del Proceso
+- Evaluación y Feedback
+- Gestión de Debrief y Decisión
+
+Distribución principal:
+- creación de candidatura, estado global y readiness para decisión → Orquestación del Proceso
+- entrevistas y feedback → Evaluación y Feedback
+- consolidación y cierre → Gestión de Debrief y Decisión
+
+---
+
+## 8.6.3 Ownership funcional recomendado
+
+Para evitar ambigüedad entre módulos, el ownership recomendado es el siguiente:
+
+| Capacidad | Módulo owner |
+|---|---|
+| creación y alineación de vacante | Gestión de Vacantes y Alineación |
+| criterios de evaluación | Gestión de Vacantes y Alineación |
+| estado operativo de candidatura | Orquestación del Proceso |
+| bloqueos y acciones | Orquestación del Proceso |
+| planificación y asignación de entrevistas | Evaluación y Feedback |
+| captura de feedback | Evaluación y Feedback |
+| validación de completitud para cierre | Orquestación del Proceso |
+| debrief consolidado | Gestión de Debrief y Decisión |
+| decisión final auditable | Gestión de Debrief y Decisión |
+
+### Regla de ownership sobre `Application` e `Interview`
+
+Para evitar solapes entre módulos, se fija la siguiente regla:
+
+- `Application` pertenece funcionalmente a **Orquestación del Proceso**, porque representa el estado global de una candidatura dentro del flujo.
+- `Interview` pertenece funcionalmente a **Evaluación y Feedback**, porque representa la unidad operativa de evaluación sobre la que se captura feedback.
+
+### Implicaciones
+
+- **Orquestación del Proceso** es el módulo owner de:
+  - `Application.current_stage`
+  - `Application.status`
+  - transición a “lista para decisión”
+  - validación de avance del proceso
+
+- **Evaluación y Feedback** es el módulo owner de:
+  - planificación de entrevistas
+  - asignación de entrevistadores
+  - estado de entrevista
+  - captura y validación de feedback
+
+### Regla de coordinación
+
+Evaluación y Feedback puede informar señales como:
+
+- entrevista planificada
+- entrevista completada
+- feedback registrado
+- feedback incompleto
+
+Pero la decisión de avanzar el estado global de la candidatura sigue perteneciendo a **Orquestación del Proceso**.
+---
+
+## 8.6.4 Decisión de diseño importante
+
+Las vertical slices se usan para planificar entregas funcionales completas.
+
+Los bounded contexts se usan para separar responsabilidades del dominio y reducir acoplamiento interno.
+
+Por tanto:
+
+- una slice puede cruzar varios módulos
+- un módulo puede participar en varias slices
+- la consistencia fuerte debe mantenerse dentro del bounded context owner
+- la coordinación entre contextos debe producirse mediante servicios de aplicación o flujos de orquestación, no mezclando reglas de negocio entre módulos
+
+---
+
+## 8.6.5 Conclusión
+
+Esta separación permite que el MVP siga siendo un flujo funcional completo sin perder claridad arquitectónica.
+
+También ayuda a evitar dos errores frecuentes:
+
+- diseñar los módulos copiando directamente las épicas o slices
+- repartir reglas de negocio entre varios contextos sin ownership claro
+
+
+## 9. Recomendación final
+
+### Release 1 (MVP funcional real)
+
+- US-01
+- US-02
+- US-03
+- US-E
+
+- US-A
+- US-B
+- US-C
+
+- US-04
+- US-06
+- US-08
+
+- US-09
+- US-D
+- US-12
+
+### Release 2 (valor diferencial completo)
+
+- US-05
+- US-10
+- US-11
+
 ### Post-MVP
+
 - US-07
+
+### Nota
+
+El MVP se ha redefinido para garantizar que el flujo completo del proceso de selección es ejecutable:
+
+vacante → candidatura → entrevista → evaluación → decisión
+
+Esto alinea el backlog con el modelo de dominio definido en el PRD y evita dependencias implícitas no implementadas.
 
 ---
 
@@ -709,6 +1177,10 @@ La mejor secuencia para LTI no es empezar por “cerrar decisiones”, sino por 
 4. decisión trazable  
 
 Ese orden refleja mejor la estrategia del PRD y reduce el riesgo de construir un backlog vistoso pero no realmente operable.
+
+Además, es importante destacar que un MVP basado únicamente en las User Stories iniciales no era realmente ejecutable, ya que faltaban piezas clave del dominio como candidatura e entrevista.
+
+La incorporación de estas historias permite validar el producto en condiciones más cercanas a un uso real.
 
 ---
 
@@ -1462,5 +1934,4 @@ Estimación individual usando:
 | 14 | Validar flujo de alta y visualización de bloqueo en frontend | 2 SP |
 
 ---
-
 
