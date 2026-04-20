@@ -1363,3 +1363,104 @@ Ticket 10, Ticket 11
 ---
 
 
+# 10. Estimación de tickets — US-04 Crear bloqueo operativo
+
+## Criterio usado
+
+Estimación individual usando:
+
+- **Unidad**: Story Points
+- **Escala**: Fibonacci (`1, 2, 3, 5, 8`)
+
+### Referencia usada
+
+- **1 punto**: cambio muy pequeño y acotado
+- **2 puntos**: tarea simple, con poco riesgo
+- **3 puntos**: tarea clara pero con algo de lógica o integración
+- **5 puntos**: tarea con varias piezas, validaciones o más incertidumbre
+- **8 puntos**: tarea grande o con demasiada incertidumbre
+
+---
+
+## Estimación por ticket
+
+### Ticket 1 — Crear entidad de dominio `ProcessBlocker`
+- **Estimación**: **3 SP**
+- **Motivo**: No es solo crear una clase. Hay que modelar bien la entidad, definir invariantes básicas y dejar clara la responsabilidad del dominio.
+
+### Ticket 2 — Definir interfaz de repositorio `ProcessBlockerRepository`
+- **Estimación**: **1 SP**
+- **Motivo**: Es una tarea pequeña y bastante directa. Principalmente consiste en definir el contrato correcto sin acoplarlo a infraestructura.
+
+### Ticket 3 — Implementar persistencia de bloqueos operativos
+- **Estimación**: **3 SP**
+- **Motivo**: Hay trabajo de mapping, estructura de base de datos e implementación del repositorio. No parece complejo, pero ya implica infraestructura real.
+
+### Ticket 4 — Implementar caso de uso `CreateProcessBlocker`
+- **Estimación**: **5 SP**
+- **Motivo**: Aquí ya aparece la lógica principal de aplicación: validar vacante, comprobar estado, crear entidad y persistir. Tiene más peso funcional que los tickets anteriores.
+
+### Ticket 5 — Validar responsable del bloqueo en creación
+- **Estimación**: **3 SP**
+- **Motivo**: Aunque parece pequeño, introduce reglas de negocio importantes y posibles consultas adicionales. Tiene algo más de complejidad que una validación puramente sintáctica.
+
+### Ticket 6 — Crear endpoint de API para registrar bloqueo operativo
+- **Estimación**: **2 SP**
+- **Motivo**: Es un endpoint relativamente estándar. Tiene integración con el caso de uso, manejo de request/response y errores, pero sin demasiada complejidad propia.
+
+### Ticket 7 — Validar request de creación de bloqueo en entrada API
+- **Estimación**: **1 SP**
+- **Motivo**: Es una validación de entrada sencilla y bastante mecánica. Tiene poco riesgo técnico.
+
+### Ticket 8 — Implementar formulario de alta de bloqueo en la vista de vacante
+- **Estimación**: **3 SP**
+- **Motivo**: Hay trabajo de UI, validaciones básicas y selección de responsable. No parece difícil, pero ya requiere algo más que una pantalla estática.
+
+### Ticket 9 — Conectar formulario de bloqueo con API de creación
+- **Estimación**: **2 SP**
+- **Motivo**: Es una integración frontend-backend bastante acotada. Tiene gestión de carga, éxito y error, pero el flujo es claro.
+
+### Ticket 10 — Mostrar listado de bloqueos activos en la vista de vacante
+- **Estimación**: **3 SP**
+- **Motivo**: Hay que pintar listado, gestionar estado vacío y refrescar correctamente tras creación. No es complejo, pero sí tiene varias pequeñas piezas.
+
+### Ticket 11 — Implementar consulta de bloqueos activos para detalle de vacante
+- **Estimación**: **2 SP**
+- **Motivo**: La query parece bastante directa. Tiene algo de trabajo de backend y API, pero menos incertidumbre que el caso de uso de creación.
+
+### Ticket 12 — Cubrir con tests la creación de bloqueo operativo
+- **Estimación**: **3 SP**
+- **Motivo**: Hay varios casos de negocio que conviene cubrir y no es solo un happy path. Requiere preparar bien escenarios y validar reglas importantes.
+
+### Ticket 13 — Añadir tests de integración del endpoint de creación de bloqueo
+- **Estimación**: **2 SP**
+- **Motivo**: Son tests bastante definidos y previsibles. Tienen trabajo técnico, pero el alcance está bastante controlado.
+
+### Ticket 14 — Validar flujo de alta y visualización de bloqueo en frontend
+- **Estimación**: **2 SP**
+- **Motivo**: Es una validación funcional bastante concreta. Tiene cierto trabajo de ejecución y revisión, pero el flujo a comprobar es pequeño.
+
+---
+
+## Resumen rápido
+
+| Ticket | Título | Estimación |
+|---|---|---:|
+| 1 | Crear entidad de dominio `ProcessBlocker` | 3 SP |
+| 2 | Definir interfaz de repositorio `ProcessBlockerRepository` | 1 SP |
+| 3 | Implementar persistencia de bloqueos operativos | 3 SP |
+| 4 | Implementar caso de uso `CreateProcessBlocker` | 5 SP |
+| 5 | Validar responsable del bloqueo en creación | 3 SP |
+| 6 | Crear endpoint de API para registrar bloqueo operativo | 2 SP |
+| 7 | Validar request de creación de bloqueo en entrada API | 1 SP |
+| 8 | Implementar formulario de alta de bloqueo en la vista de vacante | 3 SP |
+| 9 | Conectar formulario de bloqueo con API de creación | 2 SP |
+| 10 | Mostrar listado de bloqueos activos en la vista de vacante | 3 SP |
+| 11 | Implementar consulta de bloqueos activos para detalle de vacante | 2 SP |
+| 12 | Cubrir con tests la creación de bloqueo operativo | 3 SP |
+| 13 | Añadir tests de integración del endpoint de creación de bloqueo | 2 SP |
+| 14 | Validar flujo de alta y visualización de bloqueo en frontend | 2 SP |
+
+---
+
+
