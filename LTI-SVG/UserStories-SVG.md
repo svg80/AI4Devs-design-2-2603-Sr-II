@@ -75,7 +75,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 - **Estimación:** M
 - **Tipo:** Core
 
-### INVEST (mejorado)
+### INVEST
 - Independent: Parcial  
   - Justificación: Requiere que exista una vacante previa (US-01).  
   - Mejora: Mantener US-01 como prerequisito explícito del flujo.
@@ -469,3 +469,244 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 12. US-12
 
 ---
+
+# 6. Generación de backlog de producto con distintos prompts
+
+Para generar el backlog del producto se han utilizado los prompts indicados en ![Prompts usados](propmts_backlog-SVG.md)[prompts_backlog-SVG]
+
+Las conclusiones obtenidas tras analizar las respuestas de los distntos prompts han sido las siguientes:
+
+Después de probar los distintos prompts para generar el backlog, me he dado cuenta de que cada uno aporta algo diferente, pero también tienen bastantes limitaciones, sobre todo si no se revisa bien el resultado.
+
+El *primer prompt* me ha servido como punto de partida. Es fácil de entender y la priorización tiene sentido a nivel general porque sigue el flujo del producto (primero alineación, luego ejecución y finalmente decisión). El problema es que es demasiado simple: no tiene en cuenta esfuerzo, riesgo ni otros factores importantes. Es útil para empezar, pero no lo usaría para tomar decisiones reales.
+
+El *segundo prompt* mejora bastante porque introduce criterios como valor, urgencia o complejidad. Aquí ya se empieza a ver un razonamiento más estructurado, pero aun así hay algo que no termina de convencerme: los números son un poco arbitrarios. Además, a veces coloca historias arriba que en realidad no se podrían implementar todavía por dependencias.
+
+El *tercer prompt* es donde empiezo a ver un salto de calidad. Al usar el PRD, la priorización tiene más sentido desde el punto de vista del producto, no solo de las historias. Aquí ya no solo se ordena, sino que también se detectan problemas, como que faltan piezas importantes del flujo (por ejemplo, entrevistas o candidaturas). Me parece más útil porque conecta backlog con negocio.
+
+El *cuarto prompt* (User Story Mapping) no prioriza como tal, pero me ha ayudado a entender el producto de forma global. Ver el flujo completo (inicio → ejecución → decisión) me ha permitido detectar que, aunque sobre el papel parece que todo encaja, en realidad faltan cosas importantes para que el sistema funcione de verdad.
+
+El *quinto prompt* es el más completo, ya que es una mejroa del tercero. Combina métricas, contexto del PRD y además hace una especie de revisión crítica del backlog. Creo que es el que más se parece a cómo se trabajaría en un entorno real, porque no solo prioriza, sino que también cuestiona si lo que se ha definido tiene sentido. Eso sí, también es el más complejo y requiere entender bien lo que está pasando para no aceptar el resultado sin más.
+
+Viendo las respuestas de todos los promtos, parece que hay varios problemas que vienen de pasos anteriores:
+
+* El flujo no es realmente end-to-end: faltan historias clave como la gestión de candidaturas o entrevistas, que sí aparecen en el PRD. Por ejemplo, el US-09 "Registrar feedback" requiere crear una entrevista o candidatura, y no hay una US para ello.
+* Dependencias ocultas: algunas historias se priorizan como si fueran independientes, pero en realidad no lo son. Por ejemplo la US "Registrar decisión" depnde de US-09 "registrar feedback"
+* Riesgo de confiar demasiado en la IA: varios resultados parecen correctos, pero al analizarlos en detalle ves incoherencias
+
+
+Si tengo que quedarme con uno, elegiría el prompt 3 o el 5, porque son los únicos que realmente tienen en cuenta el contexto del producto y no solo las User Stories. No obstante entre los dos me quedo con el 5 por ser un prompt mejorado a partir del 3.
+
+Aun así, lo más importante es que:
+
+* No basta con generar backlog automáticamente
+* Hay que revisar siempre el resultado
+* Y sobre todo, que si las User Stories o el modelo de dominio tienen problemas, el backlog también los va a tener
+
+En resumen, la IA ayuda mucho a avanzar rápido, pero si no entiendes lo que estás haciendo, es fácil aceptar resultados que parecen correctos pero no lo son del todo.
+
+
+# 7. Product Backlog Priorizado — LTI MVP
+
+## 1. Objetivo del backlog
+
+Este backlog prioriza las User Stories del MVP de LTI con un criterio de producto orientado a:
+
+- validar cuanto antes las hipótesis clave del producto
+- construir un flujo funcional de punta a punta
+- preservar el diferencial de LTI frente a un ATS tradicional
+
+## 2. Criterios de priorización usados
+
+La priorización se ha hecho teniendo en cuenta:
+
+- valor de negocio respecto al PRD
+- capacidad de validar hipótesis de producto
+- dependencia funcional entre historias
+- capacidad de construir un flujo operativo real
+- aporte al diferencial del producto:
+  - alineación recruiter–hiring manager
+  - visibilidad y gestión de bloqueos
+  - feedback estructurado y decisión trazable
+
+## 3. Backlog priorizado
+
+| Prioridad | ID | Título | Tipo | Dependencias | Justificación |
+|---|---|---|---|---|---|
+| 1 | US-01 | Crear vacante en estado pendiente de alineación | Core | — | Es la puerta de entrada del flujo. Sin vacante no existe alineación, ejecución ni decisión. Permite arrancar el proceso con la mínima fricción. |
+| 2 | US-02 | Definir criterios de la vacante | Core | US-01 | Es la base de la alineación estructurada. Aterriza el objetivo del rol, requisitos y criterios de evaluación, que son parte central del diferencial del producto. |
+| 3 | US-03 | Validar alineación | Core | US-02 | Cierra el acuerdo entre recruiter y hiring manager y habilita la ejecución de la vacante. Sin esta validación no existe una fuente de verdad compartida. |
+| 4 | US-04 | Crear bloqueo operativo | Core | US-03 | Introduce uno de los objetos de dominio más diferenciales de LTI: el bloqueo operativo. Convierte el proceso en algo gestionable, no solo registrable. |
+| 5 | US-05 | Visualizar bloqueos | Core | US-04 | Aporta visibilidad operativa sobre qué impide avanzar una vacante. Hace tangible la propuesta de valor de “centro de decisiones y bloqueos”. |
+| 6 | US-06 | Crear acción para bloqueo | Core | US-04 | Convierte visibilidad en ejecución. Introduce accountability explícito mediante asignación de responsables y acciones correctivas. |
+| 7 | US-08 | Resolver bloqueo | Core | US-04 | Cierra el ciclo operativo del bloqueo y permite reflejar recuperación del flujo. Sin esta historia, la gestión de bloqueos queda incompleta. |
+| 8 | US-09 | Registrar feedback | Core | Falta historia previa de entrevista/candidatura | Es la pieza mínima para capturar evidencia evaluativa. Sin feedback no se puede sostener una decisión fundamentada. |
+| 9 | US-10 | Visualizar feedback | Core | US-09 | Facilita revisar el feedback en una única vista y prepara la comparación entre evaluadores. Acerca el valor de evaluación estructurada del PRD. |
+| 10 | US-11 | Generar debrief | Core | US-09, idealmente US-10 | Conecta evaluación con decisión. Permite consolidar información antes del cierre y preparar una decisión más rápida y trazable. |
+| 11 | US-12 | Registrar decisión | Core | US-11 | Cierra la candidatura con trazabilidad. Es crítica para el flujo final, pero depende completamente de que exista evidencia previa consolidada. |
+| 12 | US-07 | Visualizar acciones asignadas | Nice-to-have | US-06 | Mejora la experiencia individual de seguimiento, pero no es imprescindible para demostrar el valor central del MVP en la primera release. |
+
+---
+
+## 4. Orden recomendado de construcción
+
+El orden recomendado de implementación no sigue solo prioridad teórica, sino dependencias reales y capacidad de construir un flujo funcional:
+
+### Slice 1 — Alineación de vacante
+- US-01 — Crear vacante en estado pendiente de alineación
+- US-02 — Definir criterios de la vacante
+- US-03 — Validar alineación
+
+### Slice 2 — Ejecución operativa
+- US-04 — Crear bloqueo operativo
+- US-05 — Visualizar bloqueos
+- US-06 — Crear acción para bloqueo
+- US-08 — Resolver bloqueo
+
+### Slice 3 — Evaluación y decisión
+- US-09 — Registrar feedback
+- US-10 — Visualizar feedback
+- US-11 — Generar debrief
+- US-12 — Registrar decisión
+
+### Mejora posterior
+- US-07 — Visualizar acciones asignadas
+
+---
+
+## 5. MVP propuesto
+
+### MVP mínimo para validar hipótesis
+Incluye:
+
+- US-01
+- US-02
+- US-03
+- US-04
+- US-05
+- US-06
+- US-08
+- US-09
+
+### Qué valida este MVP mínimo
+- que recruiter y hiring manager usan LTI para alinear una vacante antes de ejecutar
+- que el sistema hace visibles los bloqueos y permite actuar sobre ellos
+- que existe comportamiento real de captura de feedback estructurado
+
+### Limitación del MVP mínimo
+Todavía no cierra el flujo completo de decisión.
+
+---
+
+### MVP ampliado
+Añade:
+
+- US-10
+- US-11
+- US-12
+
+### Qué valida el MVP ampliado
+- que el feedback es revisable y comparable
+- que el debrief acelera la preparación de la decisión
+- que la candidatura puede cerrarse con trazabilidad
+
+---
+
+## 6. Fuera de MVP inicial
+
+### Post-MVP
+- US-07 — Visualizar acciones asignadas
+
+### Motivo
+No cambia la capacidad del sistema para alinear, gestionar bloqueos o cerrar decisiones. Mejora usabilidad, pero no reduce el principal riesgo de producto.
+
+---
+
+## 7. Dependencias clave
+
+- US-02 → US-01
+- US-03 → US-02
+- US-04 → US-03
+- US-05 → US-04
+- US-06 → US-04
+- US-07 → US-06
+- US-08 → US-04
+- US-10 → US-09
+- US-11 → US-09
+- US-12 → US-11
+
+---
+
+## 8. Observaciones críticas
+
+### 8.1 Gaps de dominio detectados
+El backlog actual no cubre completamente el flujo end-to-end del dominio. Faltan al menos historias para:
+
+- crear candidatura
+- registrar o planificar entrevista
+- asignar entrevistador
+- marcar candidatura lista para decisión
+
+Sin estas piezas, el bloque E3 depende de precondiciones que aparecen en el PRD pero no están implementadas como historias.
+
+### 8.2 Historias mal definidas o mejorables
+
+#### US-07
+La historia está formulada como “Como recruiter…”, pero la descripción dice que aplica a “cada participante del proceso”.
+Debería redefinirse el rol:
+- como usuario interno
+- o como responsable asignado
+
+#### US-11
+“Generar un resumen” es demasiado ambiguo.
+Conviene concretar si el debrief:
+- agrega feedback por criterio
+- resume por entrevistador
+- señala contradicciones
+- o solo consolida texto libre
+
+#### US-05
+La historia habla de ver bloqueos en el detalle de una vacante, pero el PRD habla de una vista centralizada de decisiones y bloqueos.
+Puede ser válida como recorte MVP, pero está por debajo del diferencial completo prometido.
+
+#### E1 en general
+Falta una historia explícita para resolver discrepancias recruiter–manager, aunque sí aparece en el caso de uso principal del PRD.
+
+---
+
+## 9. Recomendación final
+
+### Release 1
+- US-01
+- US-02
+- US-03
+- US-04
+- US-05
+- US-06
+- US-08
+
+### Release 1.5
+- Historias nuevas de candidatura/entrevista
+- US-09
+
+### Release 2
+- US-10
+- US-11
+- US-12
+
+### Post-MVP
+- US-07
+
+---
+
+## 10. Conclusión ejecutiva
+
+La mejor secuencia para LTI no es empezar por “cerrar decisiones”, sino por asegurar:
+
+1. alineación real de la vacante  
+2. visibilidad y resolución de bloqueos  
+3. evaluación estructurada  
+4. decisión trazable  
+
+Ese orden refleja mejor la estrategia del PRD y reduce el riesgo de construir un backlog vistoso pero no realmente operable.
+
