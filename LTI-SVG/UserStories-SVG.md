@@ -232,7 +232,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 - **Épica:** E2
 - **Título:** Visualizar acciones asignadas
 - **Historia:**  
-  ""Como usuario interno, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar""
+  "Como usuario interno, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar"
 - **Descripción:**  
   Permite a cada participante del proceso conocer sus responsabilidades pendientes.
 - **Criterios de aceptación (BDD):**
@@ -491,6 +491,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 ## Nota
 
 A diferencia de la versión inicial, VS3 incluye ahora las entidades clave del dominio (`Application`, `Interview`) necesarias para que el flujo sea ejecutable end-to-end.
+
 ---
 
 # 4. Mapa de dependencias
@@ -526,10 +527,10 @@ La priorización del MVP se ha ajustado teniendo en cuenta no solo valor de nego
 10. US-08
 11. US-09
 12. US-D — Marcar candidatura lista para decisión
-13. US-12
-14. US-05
-15. US-10
-16. US-11
+13. US-11
+14. US-12
+15. US-05
+16. US-10
 17. US-07
 
 
@@ -552,11 +553,12 @@ Incluye:
 
 - US-09 — Registrar feedback
 - US-D — Marcar candidatura lista para decisión
+- US-11 — Generar debrief
 - US-12 — Registrar decisión
 
 ### Flujo cubierto
 
-vacante → alineación → candidatura → entrevista → feedback → decisión
+vacante → alineación → candidatura → entrevista → feedback → debrief → decisión
 
 ### Qué valida este MVP
 
@@ -573,14 +575,13 @@ Añade:
 
 - US-05 — Visualizar bloqueos
 - US-10 — Visualizar feedback
-- US-11 — Generar debrief
 
 ### Qué aporta
 
 - mejora de visibilidad operativa
 - comparación de evaluaciones
 - consolidación estructurada antes de decisión
-- 
+
 ---
 
 # 6. Generación de backlog de producto con distintos prompts
@@ -599,12 +600,12 @@ El *tercer prompt* es donde empiezo a ver un salto de calidad. Al usar el PRD, l
 
 El *cuarto prompt* (User Story Mapping) no prioriza como tal, pero me ha ayudado a entender el producto de forma global. Ver el flujo completo (inicio → ejecución → decisión) me ha permitido detectar que, aunque sobre el papel parece que todo encaja, en realidad faltan cosas importantes para que el sistema funcione de verdad.
 
-El *quinto prompt* es el más completo, ya que es una mejroa del tercero. Combina métricas, contexto del PRD y además hace una especie de revisión crítica del backlog. Creo que es el que más se parece a cómo se trabajaría en un entorno real, porque no solo prioriza, sino que también cuestiona si lo que se ha definido tiene sentido. Eso sí, también es el más complejo y requiere entender bien lo que está pasando para no aceptar el resultado sin más.
+El *quinto prompt* es el más completo, ya que es una mejora del tercero. Combina métricas, contexto del PRD y además hace una especie de revisión crítica del backlog. Creo que es el que más se parece a cómo se trabajaría en un entorno real, porque no solo prioriza, sino que también cuestiona si lo que se ha definido tiene sentido. Eso sí, también es el más complejo y requiere entender bien lo que está pasando para no aceptar el resultado sin más.
 
-Viendo las respuestas de todos los promtos, parece que hay varios problemas que vienen de pasos anteriores:
+Viendo las respuestas de todos los prompts, parece que hay varios problemas que vienen de pasos anteriores:
 
 * El flujo no es realmente end-to-end: faltan historias clave como la gestión de candidaturas o entrevistas, que sí aparecen en el PRD. Por ejemplo, el US-09 "Registrar feedback" requiere crear una entrevista o candidatura, y no hay una US para ello.
-* Dependencias ocultas: algunas historias se priorizan como si fueran independientes, pero en realidad no lo son. Por ejemplo la US "Registrar decisión" depnde de US-09 "registrar feedback"
+* Dependencias ocultas: algunas historias se priorizan como si fueran independientes, pero en realidad no lo son. Por ejemplo la US-12 "Registrar decisión" depende de US-11 "Generar debrief"
 * Riesgo de confiar demasiado en la IA: varios resultados parecen correctos, pero al analizarlos en detalle ves incoherencias
 
 
@@ -878,6 +879,7 @@ A continuación se listan las historias necesarias como dependencias previas al 
     **Entonces** el sistema no permite cerrar la alineación
 
 - **Estimación:** M
+
 ---
 
 ### 8.4 Impacto en el MVP
@@ -904,6 +906,7 @@ Sin la inclusión de:
 - US-D (lista para decisión)
 
 el flujo de evaluación y decisión (E3) no es ejecutable end-to-end, ya que el modelo de dominio requiere explícitamente entidades como `Application`, `Interview` y `Feedback`.
+
 ---
 
 ### 8.6 Mapeo a arquitectura (bounded contexts y ownership)
@@ -1099,6 +1102,7 @@ Evaluación y Feedback puede informar señales como:
 - feedback incompleto
 
 Pero la decisión de avanzar el estado global de la candidatura sigue perteneciendo a **Orquestación del Proceso**.
+
 ---
 
 ## 8.6.4 Decisión de diseño importante
@@ -1145,13 +1149,13 @@ También ayuda a evitar dos errores frecuentes:
 
 - US-09
 - US-D
+- US-11
 - US-12
 
 ### Release 2 (valor diferencial completo)
 
 - US-05
 - US-10
-- US-11
 
 ### Post-MVP
 
@@ -1190,14 +1194,6 @@ Selecciono la US-04 - Crear bloqueo operativo, porque creo que no es demasiado s
 También creo que permite dividir el trabajo en varias tareas claras, lo que viene bien para practicar cómo hacer tickets y estimarlos
 
 # 9. Tickets de trabajo para US-04 - Crear bloqueo operativo
-
-Entendido. En este paso lo correcto es **bajar la historia a trabajo técnico**, sin entrar todavía en story points.
-
-Te dejo una versión más aterrizada, en formato más cercano a una reunión real de planificación: tickets concretos, pequeños y con separación clara entre dominio, persistencia, API, frontend y pruebas.
-
----
-
-# Tickets de trabajo — US-04 Crear bloqueo operativo
 
 ## Ticket 1 — Modelar la entidad de dominio `ProcessBlocker`
 
@@ -1815,7 +1811,7 @@ Ticket 10, Ticket 11
 
 ---
 
-# Orden lógico de implementación
+## Orden lógico de implementación
 
 1. Ticket 1
 2. Ticket 2
@@ -1934,4 +1930,3 @@ Estimación individual usando:
 | 14 | Validar flujo de alta y visualización de bloqueo en frontend | 2 SP |
 
 ---
-
