@@ -1,20 +1,20 @@
 # 1. Épicas
 
-## E1 — Alineación de Vacante
+## 1.1. E1 — Alineación de Vacante
 
 **Descripción**  
 Garantiza que recruiter y hiring manager comparten criterios y expectativas antes de iniciar el proceso, evitando retrabajo posterior.
 
 ---
 
-## E2 — Gestión Operativa de Bloqueos
+## 1.2 E2 — Gestión Operativa de Bloqueos
 
 **Descripción**  
 Permite identificar, asignar y resolver bloqueos que impiden avanzar el proceso de selección.
 
 ---
 
-## E3 — Decisión y Debrief
+## 1.3 E3 — Decisión y Debrief
 
 **Descripción**  
 Facilita consolidar la evaluación y tomar una decisión final trazable y fundamentada.
@@ -23,7 +23,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 # 2. User Stories (MVP)
 
-## US-01
+## 2.1. US-01
 
 - **Épica:** E1
 - **Título:** Crear vacante en estado pendiente de alineación
@@ -54,7 +54,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 ---
 
-## US-02
+## 2.2. US-02
 
 - **Épica:** E1
 - **Título:** Definir criterios de la vacante
@@ -92,7 +92,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 ---
 
-## US-03
+## 2.3. US-03
 
 - **Épica:** E1
 - **Título:** Validar alineación
@@ -123,7 +123,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 ---
 
-## US-04
+## 2.4. US-04
 
 - **Épica:** E2
 - **Título:** Crear bloqueo operativo
@@ -154,7 +154,7 @@ Facilita consolidar la evaluación y tomar una decisión final trazable y fundam
 
 ---
 
-## US-05
+## 2.5. US-05
 
 - **Épica:** E2
 - **Título:** Visualizar bloqueos
@@ -188,7 +188,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-06
+## 2.6. US-06
 
 - **Épica:** E2
 - **Título:** Crear acción para bloqueo
@@ -227,22 +227,22 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-07
+## 2.7. US-07
 
 - **Épica:** E2
 - **Título:** Visualizar acciones asignadas
 - **Historia:**  
-  "Como usuario interno, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar"
+  "Como responsable asignado, quiero ver mis acciones asignadas para saber qué tareas debo ejecutar"
 - **Descripción:**  
   Permite a cada participante del proceso conocer sus responsabilidades pendientes.
 - **Criterios de aceptación (BDD):**
-  - **Dado que** soy responsable de acciones asignadas  
+  - **Dado que** soy responsable con acciones asignadas  
     **Cuando** accedo a mi vista de acciones  
     **Entonces** veo el listado de acciones pendientes
-  - **Dado que** existe una acción asignada  
+  - **Dado que** tengo una acción asignada  
     **Cuando** la consulto  
     **Entonces** veo su estado actual
-  - **Dado que** no tengo acciones asignadas  
+  - **Dado que** soy responsable y no tengo acciones asignadas  
     **Cuando** accedo  
     **Entonces** el sistema lo indica claramente
 - **Estimación:** S
@@ -258,7 +258,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-08
+## 2.8. US-08
 
 - **Épica:** E2
 - **Título:** Resolver bloqueo
@@ -289,7 +289,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-09
+## 2.9. US-09
 
 - **Épica:** E3
 - **Título:** Registrar feedback
@@ -328,7 +328,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-10
+## 2.10. US-10
 
 - **Épica:** E3
 - **Título:** Visualizar feedback
@@ -359,7 +359,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-11
+## 2.11. US-11
 
 - **Épica:** E3
 - **Título:** Generar debrief
@@ -390,7 +390,7 @@ La vista centralizada de bloqueos se considera evolución posterior.
 
 ---
 
-## US-12
+## 2.12. US-12
 
 - **Épica:** E3
 - **Título:** Registrar decisión
@@ -427,7 +427,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 
 ---
 
-## VS1 — Alineación de vacante
+## 3.1. VS1 — Alineación de vacante
 
 - **Historias:**
   - US-01 — Crear vacante
@@ -443,7 +443,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 
 ---
 
-## VS2 — Ejecución operativa (bloqueos)
+## 3.2. VS2 — Ejecución operativa (bloqueos)
 
 - **Historias:**
   - US-04 — Crear bloqueo operativo
@@ -460,7 +460,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 
 ---
 
-## VS3 — Evaluación y decisión (end-to-end real)
+## 3.3. VS3 — Evaluación y decisión (end-to-end real)
 
 - **Historias:**
   - US-A — Crear candidatura
@@ -480,7 +480,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 
 ---
 
-## Relación entre slices
+## 3.4. Relación entre slices
 
 - VS1 habilita VS2 y VS3 (vacante alineada)
 - VS2 puede ejecutarse en paralelo a VS3 (bloqueos durante el proceso)
@@ -488,7 +488,7 @@ Las vertical slices se han redefinido para reflejar flujos funcionales completos
 
 ---
 
-## Nota
+## 3.5. Nota
 
 A diferencia de la versión inicial, VS3 incluye ahora las entidades clave del dominio (`Application`, `Interview`) necesarias para que el flujo sea ejecutable end-to-end.
 
@@ -513,7 +513,7 @@ A diferencia de la versión inicial, VS3 incluye ahora las entidades clave del d
 
 La priorización del MVP se ha ajustado teniendo en cuenta no solo valor de negocio y dependencias, sino la capacidad de ejecutar un flujo completo end-to-end según el modelo de dominio.
 
-## Orden de prioridad
+## 5.1. Orden de prioridad
 
 1. US-01
 2. US-02
@@ -534,7 +534,7 @@ La priorización del MVP se ha ajustado teniendo en cuenta no solo valor de nego
 17. US-07
 
 
-### MVP mínimo funcional (end-to-end real)
+## 5.2. MVP mínimo funcional (end-to-end real)
 
 Incluye:
 
@@ -569,7 +569,7 @@ vacante → alineación → candidatura → entrevista → feedback → debrief 
 
 ---
 
-### MVP ampliado
+## 5.3. MVP ampliado
 
 Añade:
 
@@ -588,7 +588,7 @@ Añade:
 
 Para generar el backlog del producto se han utilizado los prompts indicados en [Prompts usados](prompts_backlog-SVG.md)
 
-Las conclusiones obtenidas tras analizar las respuestas de los distntos prompts han sido las siguientes:
+Las conclusiones obtenidas tras analizar las respuestas de los distintos prompts han sido las siguientes:
 
 Después de probar los distintos prompts para generar el backlog, me he dado cuenta de que cada uno aporta algo diferente, pero también tienen bastantes limitaciones, sobre todo si no se revisa bien el resultado.
 
@@ -622,7 +622,7 @@ En resumen, la IA ayuda mucho a avanzar rápido, pero si no entiendes lo que est
 
 # 7. Product Backlog Priorizado — LTI MVP
 
-## 1. Objetivo del backlog
+## 7.1. Objetivo del backlog
 
 Este backlog prioriza las User Stories del MVP de LTI con un criterio de producto orientado a:
 
@@ -630,7 +630,7 @@ Este backlog prioriza las User Stories del MVP de LTI con un criterio de product
 - construir un flujo funcional de punta a punta
 - preservar el diferencial de LTI frente a un ATS tradicional
 
-## 2. Criterios de priorización usados
+## 7.2. Criterios de priorización usados
 
 La priorización se ha hecho teniendo en cuenta:
 
@@ -643,7 +643,7 @@ La priorización se ha hecho teniendo en cuenta:
   - visibilidad y gestión de bloqueos
   - feedback estructurado y decisión trazable
 
-## 3. Backlog priorizado
+## 7.3. Backlog priorizado
 
 | Prioridad | ID | Título | Tipo | Dependencias | Justificación |
 |---|---|---|---|---|---|
@@ -662,7 +662,7 @@ La priorización se ha hecho teniendo en cuenta:
 
 ---
 
-## 4. Orden recomendado de construcción
+## 7.4. Orden recomendado de construcción
 
 El orden recomendado de implementación no sigue solo prioridad teórica, sino dependencias reales y capacidad de construir un flujo funcional:
 
@@ -688,7 +688,7 @@ El orden recomendado de implementación no sigue solo prioridad teórica, sino d
 
 ---
 
-## 5. MVP propuesto
+## 7.5. MVP propuesto
 
 ### MVP mínimo para validar hipótesis
 Incluye:
@@ -726,7 +726,7 @@ Añade:
 
 ---
 
-## 6. Fuera de MVP inicial
+## 7.6. Fuera de MVP inicial
 
 ### Post-MVP
 - US-07 — Visualizar acciones asignadas
@@ -736,7 +736,7 @@ No cambia la capacidad del sistema para alinear, gestionar bloqueos o cerrar dec
 
 ---
 
-## 7. Dependencias clave
+## 7.7. Dependencias clave
 
 - US-02 → US-01
 - US-03 → US-02
@@ -751,9 +751,9 @@ No cambia la capacidad del sistema para alinear, gestionar bloqueos o cerrar dec
 
 ---
 
-## 8. Observaciones críticas
+## 7.8. Observaciones críticas
 
-### 8.1 Gaps de dominio detectados
+### 7.8.1 Gaps de dominio detectados
 El backlog actual no cubre completamente el flujo end-to-end del dominio. Faltan al menos historias para:
 
 - crear candidatura
@@ -763,13 +763,7 @@ El backlog actual no cubre completamente el flujo end-to-end del dominio. Faltan
 
 Sin estas piezas, el bloque E3 depende de precondiciones que aparecen en el PRD pero no están implementadas como historias.
 
-### 8.2 Historias mal definidas o mejorables
-
-#### US-07
-La historia está formulada como “Como recruiter…”, pero la descripción dice que aplica a “cada participante del proceso”.
-Debería redefinirse el rol:
-- como usuario interno
-- o como responsable asignado
+### 7.8.2 Historias mal definidas o mejorables
 
 #### US-11
 “Generar un resumen” es demasiado ambiguo.
@@ -787,7 +781,7 @@ Puede ser válida como recorte MVP, pero está por debajo del diferencial comple
 Falta una historia explícita para resolver discrepancias recruiter–manager, aunque sí aparece en el caso de uso principal del PRD.
 
 
-### 8.3 Pre-MVP dependencies
+### 7.8.3 Pre-MVP dependencies
 
 El backlog actual no cubre completamente el flujo end-to-end del proceso de selección definido en el PRD.
 
@@ -882,7 +876,7 @@ A continuación se listan las historias necesarias como dependencias previas al 
 
 ---
 
-### 8.4 Impacto en el MVP
+### 7.8.4 Impacto en el MVP
 
 - US-09 depende directamente de:
   - US-B (entrevista)
@@ -894,7 +888,7 @@ A continuación se listan las historias necesarias como dependencias previas al 
   - Pre-MVP funcional real
   - o parte de un “MVP técnico necesario”
 
-### 8.5 Integración en el MVP
+### 7.8.5 Integración en el MVP
 
 Estas historias no deben tratarse únicamente como dependencias teóricas, sino como parte del MVP funcional real.
 
@@ -909,7 +903,7 @@ el flujo de evaluación y decisión (E3) no es ejecutable end-to-end, ya que el 
 
 ---
 
-### 8.6 Mapeo a arquitectura (bounded contexts y ownership)
+### 7.8.6 Mapeo a arquitectura (bounded contexts y ownership)
 
 A partir de las vertical slices y del modelo de dominio definido en el PRD, se define el siguiente mapeo a módulos del sistema para clarificar responsabilidades y ownership de lógica de negocio.
 
@@ -917,9 +911,9 @@ Las vertical slices definidas para el MVP representan flujos funcionales end-to-
 
 Una vertical slice puede atravesar varios módulos del sistema, mientras que cada bounded context mantiene responsabilidad clara sobre una parte del dominio, sus reglas de negocio y su consistencia interna.
 
-## 8.6.1 Bounded contexts propuestos
+#### 7.8.6.1 Bounded contexts propuestos
 
-### 1. Gestión de Vacantes y Alineación
+##### 7.8.6.1.1. Gestión de Vacantes y Alineación
 
 **Responsabilidad**
 Gestionar la vacante, su alineación recruiter–hiring manager y los criterios de evaluación asociados.
@@ -944,7 +938,7 @@ Gestionar la vacante, su alineación recruiter–hiring manager y los criterios 
 
 ---
 
-### 2. Orquestación del Proceso
+##### 7.8.6.1.2. Orquestación del Proceso
 
 **Responsabilidad**
 Coordinar el estado operativo de vacantes y candidaturas, gestionar bloqueos y acciones, y validar si el proceso puede avanzar.
@@ -972,7 +966,7 @@ Coordinar el estado operativo de vacantes y candidaturas, gestionar bloqueos y a
 
 ---
 
-### 3. Evaluación y Feedback
+##### 7.8.6.1.3. Evaluación y Feedback
 
 **Responsabilidad**
 Gestionar entrevistas, asignación de entrevistadores y captura de feedback estructurado por criterio.
@@ -998,7 +992,7 @@ Gestionar entrevistas, asignación de entrevistadores y captura de feedback estr
 
 ---
 
-### 4. Gestión de Debrief y Decisión
+##### 7.8.6.1.4. Gestión de Debrief y Decisión
 
 **Responsabilidad**
 Consolidar evidencia evaluativa, generar debrief y registrar la decisión final auditable.
@@ -1021,9 +1015,9 @@ Consolidar evidencia evaluativa, generar debrief y registrar la decisión final 
 
 ---
 
-## 8.6.2 Relación entre vertical slices y bounded contexts
+#### 7.8.6.2 Relación entre vertical slices y bounded contexts
 
-### VS1 — Alineación de vacante
+##### VS1 — Alineación de vacante
 Se implementa principalmente dentro de:
 - Gestión de Vacantes y Alineación
 
@@ -1032,7 +1026,7 @@ Dependencia posterior:
 
 ---
 
-### VS2 — Ejecución operativa (bloqueos)
+##### VS2 — Ejecución operativa (bloqueos)
 Se implementa principalmente dentro de:
 - Orquestación del Proceso
 
@@ -1042,7 +1036,7 @@ Dependencias:
 
 ---
 
-### VS3 — Evaluación y decisión
+##### VS3 — Evaluación y decisión
 Se implementa de forma transversal entre:
 - Orquestación del Proceso
 - Evaluación y Feedback
@@ -1055,7 +1049,7 @@ Distribución principal:
 
 ---
 
-## 8.6.3 Ownership funcional recomendado
+#### 7.8.6.3 Ownership funcional recomendado
 
 Para evitar ambigüedad entre módulos, el ownership recomendado es el siguiente:
 
@@ -1071,14 +1065,14 @@ Para evitar ambigüedad entre módulos, el ownership recomendado es el siguiente
 | debrief consolidado | Gestión de Debrief y Decisión |
 | decisión final auditable | Gestión de Debrief y Decisión |
 
-### Regla de ownership sobre `Application` e `Interview`
+##### Regla de ownership sobre `Application` e `Interview`
 
 Para evitar solapes entre módulos, se fija la siguiente regla:
 
 - `Application` pertenece funcionalmente a **Orquestación del Proceso**, porque representa el estado global de una candidatura dentro del flujo.
 - `Interview` pertenece funcionalmente a **Evaluación y Feedback**, porque representa la unidad operativa de evaluación sobre la que se captura feedback.
 
-### Implicaciones
+##### Implicaciones
 
 - **Orquestación del Proceso** es el módulo owner de:
   - `Application.current_stage`
@@ -1092,7 +1086,7 @@ Para evitar solapes entre módulos, se fija la siguiente regla:
   - estado de entrevista
   - captura y validación de feedback
 
-### Regla de coordinación
+##### Regla de coordinación
 
 Evaluación y Feedback puede informar señales como:
 
@@ -1105,7 +1099,7 @@ Pero la decisión de avanzar el estado global de la candidatura sigue pertenecie
 
 ---
 
-## 8.6.4 Decisión de diseño importante
+#### 7.8.6.4 Decisión de diseño importante
 
 Las vertical slices se usan para planificar entregas funcionales completas.
 
@@ -1120,7 +1114,7 @@ Por tanto:
 
 ---
 
-## 8.6.5 Conclusión
+#### 7.8.6.5 Conclusión
 
 Esta separación permite que el MVP siga siendo un flujo funcional completo sin perder claridad arquitectónica.
 
@@ -1130,7 +1124,7 @@ También ayuda a evitar dos errores frecuentes:
 - repartir reglas de negocio entre varios contextos sin ownership claro
 
 
-## 9. Recomendación final
+## 7.9. Recomendación final
 
 ### Release 1 (MVP funcional real)
 
@@ -1171,7 +1165,7 @@ Esto alinea el backlog con el modelo de dominio definido en el PRD y evita depen
 
 ---
 
-## 10. Conclusión ejecutiva
+## 7.10. Conclusión ejecutiva
 
 La mejor secuencia para LTI no es empezar por “cerrar decisiones”, sino por asegurar:
 
@@ -1195,7 +1189,7 @@ También creo que permite dividir el trabajo en varias tareas claras, lo que vie
 
 # 9. Tickets de trabajo para US-04 - Crear bloqueo operativo
 
-## Ticket 1 — Modelar la entidad de dominio `ProcessBlocker`
+## 9.1. Ticket 1 — Modelar la entidad de dominio `ProcessBlocker`
 
 ### Tipo
 
@@ -1248,7 +1242,7 @@ Ninguna
 
 ---
 
-## Ticket 2 — Definir contrato de repositorio para bloqueos
+## 9.2. Ticket 2 — Definir contrato de repositorio para bloqueos
 
 ### Tipo
 
@@ -1293,7 +1287,7 @@ Ticket 1
 
 ---
 
-## Ticket 3 — Implementar persistencia de `ProcessBlocker`
+## 9.3. Ticket 3 — Implementar persistencia de `ProcessBlocker`
 
 ### Tipo
 
@@ -1338,7 +1332,7 @@ Ticket 2
 
 ---
 
-## Ticket 4 — Implementar caso de uso de creación de bloqueo
+## 9.4. Ticket 4 — Implementar caso de uso de creación de bloqueo
 
 ### Tipo
 
@@ -1385,7 +1379,7 @@ Ticket 1, Ticket 3
 
 ---
 
-## Ticket 5 — Validar reglas de negocio sobre responsable
+## 9.5. Ticket 5 — Validar reglas de negocio sobre responsable
 
 ### Tipo
 
@@ -1426,11 +1420,11 @@ Ticket 4
 ### Notas técnicas
 
 * Este ticket evita inconsistencias de dominio bastante comunes
-* Si el sistema aún no tiene organizaciones o permisos operativos completos, dejar la validación preparada al menos a nivel de organización
+* Si el sistema aún no tiene organizaciones o permisos operativos completos, dejar la validación preparada al menos en la organización
 
 ---
 
-## Ticket 6 — Exponer endpoint para crear bloqueo operativo
+## 9.6. Ticket 6 — Exponer endpoint para crear bloqueo operativo
 
 ### Tipo
 
@@ -1476,7 +1470,7 @@ Ticket 4, Ticket 5
 
 ---
 
-## Ticket 7 — Implementar validación de request en capa API
+## 9.7. Ticket 7 — Implementar validación de request en capa API
 
 ### Tipo
 
@@ -1521,7 +1515,7 @@ Ticket 6
 
 ---
 
-## Ticket 8 — Añadir formulario de creación de bloqueo en detalle de vacante
+## 9.8. Ticket 8 — Añadir formulario de creación de bloqueo en detalle de vacante
 
 ### Tipo
 
@@ -1567,7 +1561,7 @@ Ticket 6, Ticket 7
 
 ---
 
-## Ticket 9 — Integrar el envío del formulario con la API
+## 9.9. Ticket 9 — Integrar el envío del formulario con la API
 
 ### Tipo
 
@@ -1607,7 +1601,7 @@ Ticket 8
 
 ---
 
-## Ticket 10 — Mostrar bloqueos activos en el detalle de vacante
+## 9.10. Ticket 10 — Mostrar bloqueos activos en el detalle de vacante
 
 ### Tipo
 
@@ -1652,7 +1646,7 @@ Ticket 9
 
 ---
 
-## Ticket 11 — Exponer consulta de bloqueos activos por vacante
+## 9.11. Ticket 11 — Exponer consulta de bloqueos activos por vacante
 
 ### Tipo
 
@@ -1691,7 +1685,7 @@ Ticket 3
 
 ---
 
-## Ticket 12 — Tests de dominio y aplicación para creación de bloqueo
+## 9.12. Ticket 12 — Tests de dominio y aplicación para creación de bloqueo
 
 ### Tipo
 
@@ -1737,7 +1731,7 @@ Ticket 4, Ticket 5
 
 ---
 
-## Ticket 13 — Tests de integración API para alta de bloqueo
+## 9.13. Ticket 13 — Tests de integración API para alta de bloqueo
 
 ### Tipo
 
@@ -1772,7 +1766,7 @@ Ticket 6, Ticket 7
 
 ---
 
-## Ticket 14 — Validar flujo en frontend con pruebas funcionales/manuales
+## 9.14. Ticket 14 — Validar flujo en frontend con pruebas funcionales/manuales
 
 ### Tipo
 
@@ -1811,7 +1805,7 @@ Ticket 10, Ticket 11
 
 ---
 
-## Orden lógico de implementación
+## 9.15. Orden lógico de implementación
 
 1. Ticket 1
 2. Ticket 2
@@ -1833,7 +1827,7 @@ Ticket 10, Ticket 11
 
 # 10. Estimación de tickets — US-04 Crear bloqueo operativo
 
-## Criterio usado
+## 10.1. Criterio usado
 
 Estimación individual usando:
 
@@ -1850,7 +1844,7 @@ Estimación individual usando:
 
 ---
 
-## Estimación por ticket
+## 10.2. Estimación por ticket
 
 ### Ticket 1 — Crear entidad de dominio `ProcessBlocker`
 - **Estimación**: **3 SP**
@@ -1910,7 +1904,7 @@ Estimación individual usando:
 
 ---
 
-## Resumen rápido
+## 10.3. Resumen rápido
 
 | Ticket | Título | Estimación |
 |---|---|---:|
